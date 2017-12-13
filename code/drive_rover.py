@@ -149,7 +149,7 @@ def telemetry(sid, data):
             timestamp = datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S_%f')[:-3]
             image_filename = os.path.join(args.image_folder, timestamp)
             image.save('{}.jpg'.format(image_filename))
-            Rover.vision_image.save('{}visnion.jpg'.format(image_filename))
+            #Rover.vision_image.save('{}visnion.jpg'.format(image_filename))
 
     else:
         sio.emit('manual', data={}, skip_sid=True)
