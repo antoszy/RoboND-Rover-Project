@@ -25,7 +25,12 @@ def decision_step(Rover):
                     Rover.throttle = 0
                 Rover.brake = 0
                 # Set steering to average angle clipped to the range +/- 15
-                Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
+                mean_angle = np.mean(Rover.nav_angles * 180/np.pi)
+                right_angle = np.min(Rover.nav_angles) * 180/np.pi
+                Rover.steer = np.clip(mean_angle*(1-Rover.right_coeff) + right_angle*Rover.right_coeff, -15, 15)
+                if Rover.right_coeff < 0.25:
+                    Rover.right_coeff += 0.00001
+                print(Rover.right_coeff)
                 # Stay close to the right wall:
                 # take direction which has at least Rover.min_freeway*0.1m of navigable terrain in front and is the most to the right
                 # allowed_ways = Rover.nav_dists > Rover.min_freeway
@@ -56,7 +61,7 @@ def decision_step(Rover):
                     # Release the brake to allow turning
                     Rover.brake = 0
                     # Turn range is +/- 15 degrees, when stopped the next line will induce 4-wheel turning
-                    Rover.steer = -15 # Could be more clever here about which way to turn
+                    Rover.steer = 15 # Could be more clever here about which way to turn
                 # If we're stopped but see sufficient navigable terrain in front then go!
                 if len(Rover.nav_angles) >= Rover.go_forward:
                     # Set throttle back to stored value

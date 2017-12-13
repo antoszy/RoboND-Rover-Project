@@ -83,6 +83,7 @@ class RoverState():
         self.picking_up = 0 # Will be set to telemetry value data["picking_up"]
         self.send_pickup = False # Set to True to trigger rock pickup
         self.min_freeway = 20 # Min value of distance to the wall to keep the rover going along a wall
+        self.right_coeff = 0 # Coefficient: how much go to the right
 # Initialize our rover
 Rover = RoverState()
 
