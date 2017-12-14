@@ -64,7 +64,7 @@ class RoverState():
         # of navigable terrain pixels.  This is a very crude form of knowing
         # when you can keep going and when you should stop.  Feel free to
         # get creative in adding new fields or modifying these!
-        self.stop_forward = 50 # Threshold to initiate stopping
+        self.stop_forward = 100 # Threshold to initiate stopping
         self.go_forward = 500 # Threshold to go forward again
         self.max_vel = 2 # Maximum velocity (meters/second)
         # Image output from perception step
@@ -82,8 +82,12 @@ class RoverState():
         self.near_sample = 0 # Will be set to telemetry value data["near_sample"]
         self.picking_up = 0 # Will be set to telemetry value data["picking_up"]
         self.send_pickup = False # Set to True to trigger rock pickup
+
         self.min_freeway = 20 # Min value of distance to the wall to keep the rover going along a wall
         self.right_coeff = 0 # Coefficient: how much go to the right
+
+        self.start_forward_time = 0
+        self.stuck_yaw = None
 # Initialize our rover
 Rover = RoverState()
 
