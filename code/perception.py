@@ -121,7 +121,7 @@ def perception_step(Rover):
     im2 = np.ones_like(image)*255 #white image of size similar to input images
     im2 = perspect_transform(im2,source,destination) #white color where camera see
     mask = color_thresh(im2) #mask to only take real obstacles
-    mask[0:50] = 0 # looking any further is messy, just add obstacles that are close
+    mask[0:40] = 0 # looking any further is messy, just add obstacles that are close
 
     navigable_terrain = color_thresh(warped)
     obstacles = color_thresh(warped, inverse= True)*mask
@@ -147,19 +147,22 @@ def perception_step(Rover):
     x_pix_sample_world, y_pix_sample_world = pix_to_world(x_pix_sample, y_pix_sample, x, y, yaw, world_size, scale )
 
 # 7) Update worldmap (to be displayed on right side of screen)
-    # add navigable terrain, make sure there is no overflow
-    inc = 5 # increment
-    can_increase_navigable_mask = Rover.worldmap[:,:,2] <= 255-inc
-    navigable_from_img = np.zeros_like(Rover.worldmap[:,:,2], dtype='bool')
-    navigable_from_img[y_pix_navi_world, x_pix_navi_world] = True
-    increase_navigable = navigable_from_img & can_increase_navigable_mask
-    Rover.worldmap[increase_navigable,2] += inc
-    #Rover.worldmap[  y_pix_navi_world, x_pix_navi_world, 2] += 5 # blue for navigable (one should check for overflow)
 
-    # add obstacles and samples
-    Rover.worldmap[ y_pix_obst_world, x_pix_obst_world, 0] += 1 # red for obstacles
-    Rover.worldmap[ y_pix_sample_world, x_pix_sample_world, 1] = 255 # green for samples
-    #Rover.worldmap[int(Rover.ypos[Rover.count]),int(Rover.xpos[Rover.count]), 0] = 255 # rover position on map
+    # Map world only if the rover is not inclined
+    if  (Rover.pitch < 0.5 or Rover.pitch > 359.5) and (Rover.roll < 0.5 or Rover.roll >359.5):
+        # add navigable terrain, make sure there is no overflow
+        inc = 5 # increment
+        can_increase_navigable_mask = Rover.worldmap[:,:,2] <= 255-inc
+        navigable_from_img = np.zeros_like(Rover.worldmap[:,:,2], dtype='bool')
+        navigable_from_img[y_pix_navi_world, x_pix_navi_world] = True
+        increase_navigable = navigable_from_img & can_increase_navigable_mask
+        Rover.worldmap[increase_navigable,2] += inc
+        #Rover.worldmap[  y_pix_navi_world, x_pix_navi_world, 2] += 5 # blue for navigable (one should check for overflow)
+
+        # add obstacles and samples
+        Rover.worldmap[ y_pix_obst_world, x_pix_obst_world, 0] += 1 # red for obstacles
+        Rover.worldmap[ y_pix_sample_world, x_pix_sample_world, 1] = 255 # green for samples
+        #Rover.worldmap[int(Rover.ypos[Rover.count]),int(Rover.xpos[Rover.count]), 0] = 255 # rover position on map
 
 # 8) Convert rover-centric pixel positions to polar coordinates
     # Update Rover pixel distances and angles
