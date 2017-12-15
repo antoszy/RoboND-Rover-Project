@@ -1,7 +1,4 @@
 ## Project: Search and Sample Return
-### Writeup Template: You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
 
 
 **The goals / steps of this project are the following:**  
@@ -30,6 +27,7 @@
 [image6]: ./calibration_images/to.jpg
 [image7]: ./output/better-run.jpg
 
+---
 ## [Rubric](https://review.udacity.com/#!/rubrics/916/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
