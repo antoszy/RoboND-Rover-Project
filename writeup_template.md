@@ -38,6 +38,27 @@ You're reading it!
 
 ### Notebook Analysis
 #### 1. Run the functions provided in the notebook on test images (first with the test data provided, next on data you have recorded). Add/modify functions to allow for color selection of obstacles and rock samples.
+
+In this part I looked closer at all the functions I am supposed to use and checkd them for varius inputs. After tht I modified color_thresh function. Two capabilites were added to it:
+* inversion of resulting image (for obstacle detection) 
+* getting pixels that are in specyfic range or rgb (for sample rock detection)
+
+New funciton is backwards compatilbe so the code to detect obstacles does not have to be changed.
+Below is the result of obstacle and sample detection. For sample detection 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Here is an example of how to include an image in your writeup.
 
 ![alt text][image1]
