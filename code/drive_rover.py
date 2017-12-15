@@ -84,7 +84,7 @@ class RoverState():
         self.send_pickup = False # Set to True to trigger rock pickup
 
         self.min_freeway = 20 # Min value of distance to the wall to keep the rover going along a wall
-        self.right_coeff = 0 # Coefficient: how much go to the right
+        self.left_coeff = 0 # Coefficient: how much go to the right
 
         self.start_forward_time = 0
         self.stuck_yaw = None

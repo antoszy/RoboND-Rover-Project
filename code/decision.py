@@ -39,10 +39,10 @@ def decision_step(Rover):
                     # Set steering to average angle clipped to the range +/- 15
                     mean_angle = np.mean(Rover.nav_angles * 180/np.pi)
                     right_angle = np.max(Rover.nav_angles) * 180/np.pi
-                    Rover.steer = np.clip(10*(mean_angle*(1-Rover.right_coeff) + right_angle*Rover.right_coeff), -15, 15)
-                    if Rover.right_coeff < 0.35:
-                        Rover.right_coeff += 0.0001
-                    #print(Rover.right_coeff)
+                    Rover.steer = np.clip(10*(mean_angle*(1-Rover.left_coeff) + right_angle*Rover.left_coeff), -15, 15)
+                    if Rover.left_coeff < 0.35:
+                        Rover.left_coeff += 0.0001
+                    #print(Rover.left_coeff)
                     # Stay close to the right wall:
                     # take direction which has at least Rover.min_freeway*0.1m of navigable terrain in front and is the most to the right
                     # allowed_ways = Rover.nav_dists > Rover.min_freeway
@@ -62,7 +62,7 @@ def decision_step(Rover):
 
         # If we're already in "stop" mode then make different decisions
         elif Rover.mode == 'stop':
-            Rover.right_coeff = 0.25
+            Rover.left_coeff = 0.25
             # If we're in stop mode but still moving keep braking
             if Rover.vel > 0.2:
                 Rover.throttle = 0
@@ -98,7 +98,11 @@ def decision_step(Rover):
                 Rover.mode = 'forward'
                 Rover.start_forward_time = Rover.total_time
 
-    print(Rover.right_coeff, Rover.mode)
+        # if the rover "sees" sample
+        #elif Rover.mode == 'sample approach':
+
+
+    print(Rover.left_coeff, Rover.mode)
 
 
     # If in a state where want to pickup a rock send pickup command
