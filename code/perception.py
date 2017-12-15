@@ -171,9 +171,7 @@ def perception_step(Rover):
     Rover.obst_dists, Rover.obst_angles = to_polar_coords(x_pix_obst, y_pix_obst)
     Rover.sample_dists, Rover.sample_angles = to_polar_coords(x_pix_sample, y_pix_sample)
 
-# 9) Add samples positions
-    if Rover.sample_dists.size != 0:
-        closest_sample_index = np.argmin(Rover.sample_dists)
+
 
 
     return Rover
