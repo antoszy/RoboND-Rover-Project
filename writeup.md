@@ -65,7 +65,7 @@ The following steps were coded inside `process_image()` function:
 1. Applying color thresholding to detect navigable terrain, rock samples and obstacles. **For obstacles an additional mask is created to not consider points that cannot be seen from rover camera, and points too far away from the rover. This prevents some additional obstacles detection on navigable terrain.**
 1. Converting thresholded image pixel values to rover-centric coordinates.
 1. Converting rover-centric pixel values to world coordinates
-1. Updating world map. **Special consideration is undertaken to not allow for pixel value overflow when increasing its value.**
+1. Updating world map. **Special consideration is undertaken to not allow for pixel value overflow (255 to 0) when increasing its value.**
 1. Making mosaic image based on analysis outputs.
 
 The results of the analysis can be seen in *./output/test_mapping.mp4*
@@ -82,7 +82,7 @@ Funcition is similar to the one used in the jupyter notebook with few changes
 1. `decision_step()`:
 * **In starting (forward) mode the direction of movement is chosen as a weighted sum of mean navigable angle and navigable angle which is the most to the left. The weighting coefficient (`left_coeff`) is increasing over time to make rover go closer to the left wall. This way allows rover to map the whole terrain and find 5-6 samples depending on time of run.**
 * If the rover has very little navigable terrain in front of it, rover starts to turn to find more navigable terrain (stop mode)
-* **If rover got stuck (very low velocity for more than 2 seconds) it's mode changes to stuck stop, in which it rotates 15* in the right direction.**
+* **If rover got stuck (very low velocity for more than 2 seconds) it's mode changes to stuck stop, in which it rotates 15 degrees in the right direction.**
 * **If the rover is very close to the sample, it brakes**
 
 
@@ -96,6 +96,6 @@ Funcition is similar to the one used in the jupyter notebook with few changes
 To improve algorithm one should:
 * Improve the algorithm for going by the wall. For example one could find direction which is most to the left and has at leas 1-2 meters of navigable terrain.
 * Check for obstacles in front of the rover and add a mode for circling them (instead of bumping into tem).
-* Instead of turning everything below the threshold in the image into obstacle on map, one could only make obstacles to pixels behind the navigable (possible by edge detection algorithm). In other case small obstacles on the way can tern into prolonged obstacles on map as they are not flat and perspective transform does not work correct for them.
+* Instead of turning everything below the threshold in the image into obstacle on map, one could only make obstacles from pixels just behind the navigable terrain(possible by edge detection algorithm). In other case small obstacles on the way can turn into prolonged obstacles on map as they are not flat and perspective transform does not work correctly for them.
 
 ##### My framerate was: 38, graphics quality: good and resolution: 720x480
