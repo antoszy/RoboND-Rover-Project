@@ -41,7 +41,7 @@ def decision_step(Rover):
                     right_angle = np.max(Rover.nav_angles) * 180/np.pi
                     Rover.steer = np.clip(10*(mean_angle*(1-Rover.left_coeff) + right_angle*Rover.left_coeff), -15, 15)
                     if Rover.left_coeff < 0.35:
-                        Rover.left_coeff += 0.0001
+                        Rover.left_coeff += 0.0005
                     #print(Rover.left_coeff)
                     # Stay close to the right wall:
                     # take direction which has at least Rover.min_freeway*0.1m of navigable terrain in front and is the most to the right
